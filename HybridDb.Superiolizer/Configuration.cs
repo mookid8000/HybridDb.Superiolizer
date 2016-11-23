@@ -3,22 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using HybridDb.Superiolizer.Internals;
 using Newtonsoft.Json;
 
 namespace HybridDb.Superiolizer
 {
+    /// <summary>
+    /// Represents a configuration to be used by the Superiolizer when creating it
+    /// </summary>
     public class Configuration
     {
         readonly Dictionary<Type, StringFormatter> _customStringFormatters = new Dictionary<Type, StringFormatter>();
+        readonly ShortNameBinderFactory _binderFactory = new ShortNameBinderFactory();
 
+        /// <summary>
+        /// Gets the currently configured text encoding
+        /// </summary>
         public Encoding Encoding { get; }
 
+        /// <summary>
+        /// Creates the configuration with the given encoding
+        /// </summary>
         public Configuration(Encoding encoding)
         {
+            if (encoding == null) throw new ArgumentNullException(nameof(encoding));
             Encoding = encoding;
         }
 
-        public JsonSerializerSettings GetJsonSerializerSettings()
+        internal JsonSerializerSettings GetJsonSerializerSettings()
         {
             return new JsonSerializerSettings
             {
@@ -26,11 +38,25 @@ namespace HybridDb.Superiolizer
                     .Select(formatter => formatter.ToConverter())
                     .ToList(),
 
-                TypeNameHandling = TypeNameHandling.Objects
+                TypeNameHandling = TypeNameHandling.Objects,
+
+                Binder = _binderFactory.CreateBinder()
             };
         }
 
-        public void AddCustomSerialization<T>(Func<T, string> serializer, Func<string, T> deserializer)
+        /// <summary>
+        /// Adds a short-name for the given type
+        /// </summary>
+        public Configuration WithShortName<T>(string name)
+        {
+            _binderFactory.Add<T>(name);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a custom string formatter/parser for the given type
+        /// </summary>
+        public Configuration WithCustomSerializer<T>(Func<T, string> serializer, Func<string, T> deserializer)
         {
             var type = typeof(T);
 
@@ -40,6 +66,7 @@ namespace HybridDb.Superiolizer
             }
 
             _customStringFormatters[type] = new StringFormatter<T>(serializer, deserializer);
+            return this;
         }
 
         abstract class StringFormatter

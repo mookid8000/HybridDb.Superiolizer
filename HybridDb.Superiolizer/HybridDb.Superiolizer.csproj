@@ -28,6 +28,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\HybridDb.Superiolizer.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HybridDb, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -53,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Internals\ShortNameBinder.cs" />
+    <Compile Include="Internals\ShortNameBinderFactory.cs" />
     <Compile Include="Superiolizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

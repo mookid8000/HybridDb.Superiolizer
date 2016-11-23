@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using NUnit.Framework;
 
@@ -8,13 +11,28 @@ namespace HybridDb.Superiolizer.Tests
     public class TestCustomSerialization
     {
         [Test]
+        public void WeGetNiceErrorIfDeserializationFails()
+        {
+            var configuration = new Configuration(Encoding.UTF8)
+                .WithCustomSerializer(dateTime => "THIS IS JUST A KNOWN VALUE", DateTime.Parse);
+
+            var superiolizer = new Superiolizer(configuration);
+
+            var serializationException = Assert.Throws<SerializationException>(() => superiolizer.Roundtrip(DateTime.Today));
+
+            Console.WriteLine(serializationException);
+
+            Assert.That(serializationException.ToString(), Contains.Substring("THIS IS JUST A KNOWN VALUE"));
+        }
+
+        [Test]
         public void CanRoundtripCustomSerializedDate()
         {
             var configuration = new Configuration(Encoding.UTF8);
 
             Func<Date, string> customDateSerializerFunction = date => $"{date.Year:0000}/{date.Month:00}/{date.Day:00}";
 
-            configuration.AddCustomSerialization(customDateSerializerFunction,
+            configuration.WithCustomSerializer(customDateSerializerFunction,
                 str =>
                 {
                     var parts = str.Split('/');
@@ -24,7 +42,12 @@ namespace HybridDb.Superiolizer.Tests
             var superiolizer = new Superiolizer(configuration);
 
             var properDateValueType = new Date(2016, 11, 22);
-            var classWithDates = new ClassWithDates(properDateValueType);
+            var classWithDates = new ClassWithDates(properDateValueType, dateList: new[]
+            {
+                new Date(2016, 11, 20),
+                new Date(2016, 11, 21),
+                new Date(2016, 11, 22)
+            });
 
             string jsonText;
 
@@ -35,18 +58,26 @@ namespace HybridDb.Superiolizer.Tests
             var expectedDateLayout = customDateSerializerFunction(properDateValueType);
             Assert.That(jsonText, Contains.Substring(expectedDateLayout));
             Assert.That(roundtrippedClassWithDates.Date, Is.EqualTo(properDateValueType));
+            Assert.That(roundtrippedClassWithDates.DateList, Is.EqualTo(new[]
+            {
+                new Date(2016, 11, 20),
+                new Date(2016, 11, 21),
+                new Date(2016, 11, 22)
+            }));
         }
 
         class ClassWithDates
         {
-            public ClassWithDates(Date date, Date nullDate = null)
+            public ClassWithDates(Date date, IEnumerable<Date> dateList, Date nullDate = null)
             {
                 Date = date;
                 NullDate = nullDate;
+                DateList = dateList.ToList();
             }
 
             public Date Date { get; }
             public Date NullDate { get; }
+            public List<Date> DateList { get; }
         }
 
         class Date : IEquatable<Date>

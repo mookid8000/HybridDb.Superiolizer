@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestCustomNaming.cs" />
     <Compile Include="TestCustomSerialization.cs" />
     <Compile Include="TestSuperiolizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
