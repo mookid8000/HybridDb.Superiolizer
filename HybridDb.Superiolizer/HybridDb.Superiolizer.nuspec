@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>HybridDb.Superiolizer</id>
+    <version>$version$</version>
+    <title>HybridDb.Superiolizer</title>
+    <authors>mookid8000</authors>
+    <owners>mookid8000</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/mookid8000/HybridDb.Superiolizer</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Serializer for HybridDB</description>
+    <copyright>Copyright 2012-2016</copyright>
+    <tags>json hybriddb</tags>
+    <dependencies>
+      <dependency id="HybridDb" version="0.10.8" />
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\HybridDb.Superiolizer.dll" target="lib\NET45" />
+    <file src="bin\Release\HybridDb.Superiolizer.xml" target="lib\NET45" />
+  </files>
+</package>
