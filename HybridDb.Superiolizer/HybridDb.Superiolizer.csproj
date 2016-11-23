@@ -54,7 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration.cs" />
+    <Compile Include="HybridDbConfigurationExtensions.cs" />
+    <Compile Include="SuperiolizerConfiguration.cs" />
     <Compile Include="Internals\ShortNameBinder.cs" />
     <Compile Include="Internals\ShortNameBinderFactory.cs" />
     <Compile Include="Superiolizer.cs" />

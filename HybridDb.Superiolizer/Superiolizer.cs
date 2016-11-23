@@ -10,21 +10,21 @@ namespace HybridDb.Superiolizer
     /// </summary>
     public class Superiolizer : ISerializer
     {
-        readonly Configuration _configuration;
+        readonly SuperiolizerConfiguration _configuration;
         readonly JsonSerializerSettings _settings;
         readonly Encoding _encoding;
 
         /// <summary>
         /// Creates the Superiolizer with default dettings
         /// </summary>
-        public Superiolizer() : this(new Configuration(Encoding.UTF8))
+        public Superiolizer() : this(new SuperiolizerConfiguration(Encoding.UTF8))
         {
         }
 
         /// <summary>
         /// Creates the Superiolizer with the given configuration
         /// </summary>
-        public Superiolizer(Configuration configuration)
+        public Superiolizer(SuperiolizerConfiguration configuration)
         {
             _configuration = configuration;
             _encoding = configuration.Encoding;

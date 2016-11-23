@@ -10,7 +10,7 @@ namespace HybridDb.Superiolizer.Tests
         [Test]
         public void CanUseCustomNames()
         {
-            var configuration = new Configuration(Encoding.UTF8)
+            var configuration = new SuperiolizerConfiguration(Encoding.UTF8)
                 .WithShortName<InnerClass.InnerInnerClass.ThisIsTheClass>("ThisIsTheClass");
 
             var superiolizer = new Superiolizer(configuration);

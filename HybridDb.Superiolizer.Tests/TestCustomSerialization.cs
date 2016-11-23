@@ -13,7 +13,7 @@ namespace HybridDb.Superiolizer.Tests
         [Test]
         public void WeGetNiceErrorIfDeserializationFails()
         {
-            var configuration = new Configuration(Encoding.UTF8)
+            var configuration = new SuperiolizerConfiguration(Encoding.UTF8)
                 .WithCustomSerializer(dateTime => "THIS IS JUST A KNOWN VALUE", DateTime.Parse);
 
             var superiolizer = new Superiolizer(configuration);
@@ -28,7 +28,7 @@ namespace HybridDb.Superiolizer.Tests
         [Test]
         public void CanRoundtripCustomSerializedDate()
         {
-            var configuration = new Configuration(Encoding.UTF8);
+            var configuration = new SuperiolizerConfiguration(Encoding.UTF8);
 
             Func<Date, string> customDateSerializerFunction = date => $"{date.Year:0000}/{date.Month:00}/{date.Day:00}";
 

@@ -11,7 +11,7 @@ namespace HybridDb.Superiolizer
     /// <summary>
     /// Represents a configuration to be used by the Superiolizer when creating it
     /// </summary>
-    public class Configuration
+    public class SuperiolizerConfiguration
     {
         readonly Dictionary<Type, StringFormatter> _customStringFormatters = new Dictionary<Type, StringFormatter>();
         readonly ShortNameBinderFactory _binderFactory = new ShortNameBinderFactory();
@@ -24,7 +24,7 @@ namespace HybridDb.Superiolizer
         /// <summary>
         /// Creates the configuration with the given encoding
         /// </summary>
-        public Configuration(Encoding encoding)
+        public SuperiolizerConfiguration(Encoding encoding)
         {
             if (encoding == null) throw new ArgumentNullException(nameof(encoding));
             Encoding = encoding;
@@ -47,7 +47,7 @@ namespace HybridDb.Superiolizer
         /// <summary>
         /// Adds a short-name for the given type
         /// </summary>
-        public Configuration WithShortName<T>(string name)
+        public SuperiolizerConfiguration WithShortName<T>(string name)
         {
             _binderFactory.Add<T>(name);
             return this;
@@ -56,7 +56,7 @@ namespace HybridDb.Superiolizer
         /// <summary>
         /// Adds a custom string formatter/parser for the given type
         /// </summary>
-        public Configuration WithCustomSerializer<T>(Func<T, string> serializer, Func<string, T> deserializer)
+        public SuperiolizerConfiguration WithCustomSerializer<T>(Func<T, string> serializer, Func<string, T> deserializer)
         {
             var type = typeof(T);
 
