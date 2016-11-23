@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration.cs" />
     <Compile Include="Superiolizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

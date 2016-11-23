@@ -1,5 +1,4 @@
-﻿using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace HybridDb.Superiolizer.Tests
 {
@@ -9,7 +8,7 @@ namespace HybridDb.Superiolizer.Tests
         [Test]
         public void CanRoundtripSomething()
         {
-            var superiolizer = new Superiolizer(Encoding.UTF8);
+            var superiolizer = new Superiolizer();
             var something = new Something("hej med dig");
 
             var roundtrippedSomething = superiolizer.Roundtrip(something);

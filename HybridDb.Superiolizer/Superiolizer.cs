@@ -10,11 +10,17 @@ namespace HybridDb.Superiolizer
         readonly JsonSerializerSettings _settings;
         readonly Encoding _encoding;
 
-        public Superiolizer(Encoding encoding)
+        public Superiolizer() : this(new Configuration(Encoding.UTF8))
         {
-            _encoding = encoding;
-            _settings = new JsonSerializerSettings { };
         }
+
+        public Superiolizer(Configuration configuration)
+        {
+            _encoding = configuration.Encoding;
+            _settings = configuration.GetJsonSerializerSettings();
+        }
+
+        public Encoding Encoding => _encoding;
 
         public byte[] Serialize(object obj)
         {
